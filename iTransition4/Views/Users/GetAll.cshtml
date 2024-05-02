@@ -1,0 +1,189 @@
+﻿@{
+}
+
+@model List<iTransition4.Models.User>
+
+
+
+<link rel="stylesheet" href="../wwwroot/lib/fonts/KFOmCnqEu92Fr1Mu72xKOzY.woff2">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<script src="../wwwroot/js/popper-min.js"></script>
+<script src="../wwwroot/js/bootstrap.js"></script>
+<script src="../wwwroot/js/site.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
+
+<div class="container-xl">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6" id="buttons">
+                        <h2>Manage <b>Users</b></h2>
+                    </div>
+                    <div class="col-sm-4.5">
+                        <a href="#" onclick="sendToUnblock()" class="btn btn-primary"><i class="material-icons">&#xE14B;</i> <span>Unblock</span></a>
+                        <button href="#" class="btn btn-danger" onclick="sendToBlock()">
+                            <i class="material-icons">&#xE14B;</i><span>Block</span>
+                        </button>
+
+                        <a href="#" onclick="sendToDelete()" class="btn btn-danger"><i class="material-icons">&#xE872;</i> <span>Delete</span></a>
+                        <a href="../users/Create" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>New User</span></a>
+
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            <span class="form-checkbox">
+                                <input class="form-check-input" type="checkbox" id="selectAll">
+                                <label class="form-check-label" for="selectAll"></label>
+                            </span>
+                        </th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Last Login Time</th>
+                        <th>Registration Time</th>
+                        <th>Status</th>
+                        <th>    </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    @foreach (var user in Model)
+                    {
+                        if (user.LastLoginTime == DateTime.MinValue)
+                        {
+                            user.LastLoginTime = null;
+                        }
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input userCheckBox" type="checkbox" value="@user.Id">
+                                    <label class="form-check-label" for="userCheckBox"></label>
+                                </div>
+                            </td>
+                            <td>@user.FullName</td>
+                            <td>@user.Email</td>
+                            <td>@(user.LastLoginTime != null && user.LastLoginTime != DateTime.MinValue ? user.LastLoginTime.ToString() : "N/A")</td>
+                            <td>@user.RegistrationTime</td>
+                            <td>@user.IsBlocked</td>
+                            <td>
+                                <a href="../Users/Edit/@user.Id" class="btn btn-warning btn-sm" data-toggle="modal">
+                                    <i class="material-icons">&#xE3C9;</i>
+                                    <span>Edit</span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    var selectedUsers = [];
+
+    function sendToBlock() {
+        var jsonString = JSON.stringify(selectedUsers);
+        $.ajax({
+            url: "Block",
+            type: 'POST',
+            data: { userIds: jsonString },
+            success: function (response) {
+                window.location.reload();
+            },
+            error: function (error) {
+                alert("There was a problem with blocking the users");
+            }
+        });
+    }
+
+    function sendToUnblock() {
+        var jsonString = JSON.stringify(selectedUsers);
+
+        $.ajax({
+            url: "Unblock",
+            type: 'POST',
+            data: { userIds: jsonString },
+            success: function (response) {
+                window.location.reload();
+            },
+            error: function (error) {
+                alert("There was a problem with unblocking the users");
+            }
+        });
+    }
+
+    function sendToDelete() {
+        var jsonString = JSON.stringify(selectedUsers);
+
+        $.ajax({
+            url: "Delete",
+            type: 'POST',
+            data: { userIds: jsonString },
+            success: function (response) {
+                window.location.reload();
+            },
+            error: function (error) {
+                alert("There was a problem with deleting the users");
+            }
+        });
+    }
+
+    var checkboxes = document.querySelectorAll('.userCheckBox');
+    checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            if (this.checked) {
+                selectedUsers.push(this.value);
+                console.log("selected");
+            } else {
+                console.log("deselected");
+                var index = selectedUsers.indexOf(this.value);
+                if (index !== -1) {
+                    selectedUsers.splice(index, 1);
+                }
+            }
+        });
+    });
+
+    $(document).ready(function () {
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        // Select/Deselect checkboxes
+        var checkbox = $('table tbody input[type="checkbox"]');
+        $("#selectAll").click(function () {
+            if (this.checked) {
+                checkbox.each(function () {
+                    this.checked = true;
+                    selectedUsers.push(this.value);
+                });
+            } else {
+                checkbox.each(function () {
+                    this.checked = false;
+                    var index = selectedUsers.indexOf(this.value);
+                    if (index !== -1) {
+                        selectedUsers.splice(index, 1);
+                    }
+
+                });
+            }
+        });
+
+        // Update SelectAll checkbox based on individual checkboxes
+        checkbox.click(function () {
+            if (!this.checked) {
+                $("#selectAll").prop("checked", false);
+            } else if (checkbox.filter(':checked').length === checkbox.length) {
+                $('#selectAll').prop("checked", true);
+            }
+        });
+    });
+</script>

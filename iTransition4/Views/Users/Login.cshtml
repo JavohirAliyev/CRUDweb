@@ -1,0 +1,44 @@
+﻿﻿@using iTransition4.Models;
+@model iTransition4.Models.LoginViewModel;
+@{
+    ViewData["Title"] = "Login";
+}
+
+<link rel="stylesheet" href="../wwwroot/lib/fonts/KFOmCnqEu92Fr1Mu72xKOzY.woff2">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../wwwroot/js/popper-min.js"></script>
+<script src="../wwwroot/js/bootstrap.js"></script>
+
+
+<div class="container mt-5">
+    <div class="card">
+
+        <div class="card-body">
+            <div class="tab-content">
+                @if (ViewData.ModelState.IsValid == false)
+                {
+                    <div class="alert alert-danger">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <span>@error.ErrorMessage</span>
+                        }
+                    </div>
+                }
+                <div class="tab-pane active" id="login">
+                    <form asp-action="Login">
+                        <div class="form-group mb-3">
+                            <label for="username">E-mail</label>
+                            <input type="text" class="form-control" id="username" asp-for="Email" placeholder="Enter e-mail">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="password">Password</label>
+                            <input type="password" asp-for="Password" class="form-control" id="password" placeholder="Enter password">
+                        </div>
+                        <button type="submit" id="loginButton" class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

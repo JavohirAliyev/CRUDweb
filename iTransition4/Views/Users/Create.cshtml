@@ -1,0 +1,43 @@
+﻿﻿
+<link rel="stylesheet" href="../wwwroot/lib/fonts/KFOmCnqEu92Fr1Mu72xKOzY.woff2">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<script src="../wwwroot/js/jquery-3-5-1.js"></script>
+<script src="../wwwroot/js/popper-min.js"></script>
+<script src="../wwwroot/js/bootstrap.js"></script>
+
+
+@model iTransition4.Models.CreateUserViewModel;
+<h1>Create a new user</h1>
+
+@if (ViewData.ModelState.IsValid == false)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <span>@error.ErrorMessage</span>
+        }
+    </div>
+}
+
+<form method="post">
+    <div class="modal-header">
+        <h4 class="modal-title">New User</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" asp-for="FullName" required>
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input asp-for="Email" type="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input asp-for="Password" type="password" class="form-control">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input type="submit" class="btn btn-info" value="Save">
+    </div>
+</form>

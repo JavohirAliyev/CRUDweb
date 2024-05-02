@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\iTransition4.props" />
+</Project>

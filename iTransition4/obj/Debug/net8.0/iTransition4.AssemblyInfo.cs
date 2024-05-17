@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("iTransition4")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e7a970b2c8be64b48898f764c6db7fe30467e116")]
 [assembly: System.Reflection.AssemblyProductAttribute("iTransition4")]
 [assembly: System.Reflection.AssemblyTitleAttribute("iTransition4")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

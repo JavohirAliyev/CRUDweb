@@ -4,16 +4,6 @@
 @model List<iTransition4.Models.User>
 
 
-
-<link rel="stylesheet" href="../wwwroot/lib/fonts/KFOmCnqEu92Fr1Mu72xKOzY.woff2">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<script src="../wwwroot/js/popper-min.js"></script>
-<script src="../wwwroot/js/bootstrap.js"></script>
-<script src="../wwwroot/js/site.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-
-
 <div class="container-xl">
     <div class="table-responsive">
         <div class="table-wrapper">
@@ -97,45 +87,80 @@
             type: 'POST',
             data: { userIds: jsonString },
             success: function (response) {
-                window.location.reload();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Users have been blocked successfully!',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.reload();
+                });
             },
             error: function (error) {
-                alert("There was a problem with blocking the users");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'There was a problem with blocking the users',
+                    confirmButtonText: 'OK'
+                });
             }
         });
     }
 
     function sendToUnblock() {
         var jsonString = JSON.stringify(selectedUsers);
-
         $.ajax({
             url: "Unblock",
             type: 'POST',
             data: { userIds: jsonString },
             success: function (response) {
-                window.location.reload();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Users have been unblocked successfully!',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.reload();
+                });
             },
             error: function (error) {
-                alert("There was a problem with unblocking the users");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'There was a problem with unblocking the users',
+                    confirmButtonText: 'OK'
+                });
             }
         });
     }
 
     function sendToDelete() {
         var jsonString = JSON.stringify(selectedUsers);
-
         $.ajax({
             url: "Delete",
             type: 'POST',
             data: { userIds: jsonString },
             success: function (response) {
-                window.location.reload();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Users have been deleted successfully!',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.reload();
+                });
             },
             error: function (error) {
-                alert("There was a problem with deleting the users");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'There was a problem with deleting the users',
+                    confirmButtonText: 'OK'
+                });
             }
         });
     }
+
 
     var checkboxes = document.querySelectorAll('.userCheckBox');
     checkboxes.forEach(function (checkbox) {

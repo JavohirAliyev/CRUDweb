@@ -1,5 +1,9 @@
-﻿namespace iTransition4.Models
+﻿using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
+
+namespace iTransition4.Models
 {
+    [Index(nameof(Email), IsUnique = true)]
     public class User
     {
         private string fullName;

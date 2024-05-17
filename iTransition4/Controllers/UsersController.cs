@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using iTransition4.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace iTransition4.Controllers
 {
@@ -30,36 +31,46 @@ namespace iTransition4.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserViewModel u)
         {
-            
-            
-            if (String.IsNullOrEmpty(u.FullName) || String.IsNullOrEmpty(u.Password))
+            if (ModelState.IsValid)
             {
-
-                ModelState.AddModelError(string.Empty, "Full name and password cannot be empty");
-
-            } else if (!String.IsNullOrEmpty(u.FullName) && !String.IsNullOrEmpty(u.Password))
-            {
-                var user = new User
+                if (String.IsNullOrEmpty(u.FullName) || String.IsNullOrEmpty(u.Password))
                 {
-                    FullName = u.FullName
-                ,
-                    Email = u.Email
-                ,
-                    Password = u.Password
-                ,
-                    RegistrationTime = DateTime.Now
-                };
-                if (_thisUser == null)
-                {
-                    _thisUser = user;
+
+                    ModelState.AddModelError(string.Empty, "Full name and password cannot be empty");
 
                 }
-                await _dbContext.UsersDb.AddAsync(user);
-                _dbContext.SaveChanges();
-                return RedirectToAction("GetAll", "Users");
+                var existingUser = _dbContext.UsersDb.FirstOrDefault(x => x.Email == u.Email);
+                if (existingUser != null)
+                {
+                    ModelState.AddModelError("Email", "This email is already registered.");
+                    return View(u);
+                }
+                else if (!String.IsNullOrEmpty(u.FullName) && !String.IsNullOrEmpty(u.Password))
+                {
+                    var user = new User
+                    {
+                        FullName = u.FullName
+                    ,
+                        Email = u.Email
+                    ,
+                        Password = u.Password
+                    ,
+                        RegistrationTime = DateTime.Now
+                    };
+                    if (_thisUser == null)
+                    {
+                        _thisUser = user;
+
+                    }
+                    await _dbContext.UsersDb.AddAsync(user);
+                    _dbContext.SaveChanges();
+                    return RedirectToAction("GetAll", "Users");
+                }
             }
             return View(u);
         }
+
+             
 
 
         [HttpGet]
@@ -95,9 +106,16 @@ namespace iTransition4.Controllers
         {
             User? user = await _dbContext.UsersDb.FindAsync(viewModel.Id);
 
+            var existingEmail = _dbContext.UsersDb.FirstOrDefault(x => x.Email == viewModel.Email);
+
             if (String.IsNullOrEmpty(viewModel.FullName) || String.IsNullOrEmpty(viewModel.Password))
             {
                 ModelState.AddModelError(string.Empty, "Full name and password cannot be empty");
+                return View(viewModel);
+            }
+            else if (existingEmail is not null)
+            {
+                ModelState.AddModelError("Email", "This email is already registered.");
                 return View(viewModel);
             } else if (user is not null)
             {

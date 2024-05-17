@@ -4154,11 +4154,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\Desktop\\task4\\iTransition4-main\\iTransition4\\iTransition4.csproj",
+      "projectUniqueName": "D:\\Itransition\\task4\\iTransition4-main\\iTransition4\\iTransition4.csproj",
       "projectName": "iTransition4",
-      "projectPath": "C:\\Users\\User\\Desktop\\task4\\iTransition4-main\\iTransition4\\iTransition4.csproj",
+      "projectPath": "D:\\Itransition\\task4\\iTransition4-main\\iTransition4\\iTransition4.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\Desktop\\task4\\iTransition4-main\\iTransition4\\obj\\",
+      "outputPath": "D:\\Itransition\\task4\\iTransition4-main\\iTransition4\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"

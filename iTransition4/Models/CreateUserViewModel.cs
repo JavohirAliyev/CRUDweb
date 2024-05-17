@@ -1,5 +1,8 @@
-﻿namespace iTransition4.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace iTransition4.Models
 {
+    [NotMapped]
     public class CreateUserViewModel
     {
         private string fullName;
